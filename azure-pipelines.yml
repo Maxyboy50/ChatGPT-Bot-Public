@@ -1,0 +1,106 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- none
+
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: PreDeployment
+  jobs:
+  - job: Packages
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.10'
+        addToPath: true
+        architecture: 'x64'
+      displayName: Use specific Python version in line with Lambda Runtime + Lambda Layer Runtime
+
+    - bash: |
+        python3 -m pip install -t $(Build.ArtifactStagingDirectory)/python -r requirements.txt
+        cd $(Build.ArtifactStagingDirectory)/python
+        zip -r $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip ../python
+      displayName: Create lambda layer package
+
+    - bash: |
+        zip -r lambda_deployment_package.zip $(Pipeline.Workspace)/s/lambda_files/ -j
+      displayName: Create deployment package from lambda code
+    - publish: $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip
+      artifact: Lambda_Packages
+      displayName: Publish lambda packages artifact
+    - publish: lambda_deployment_package.zip
+      artifact: Lambda_Code
+      displayName: Publish lambda code artifact
+- stage: Deployment
+  jobs: 
+  - job: Terraform
+    steps:
+    - checkout: self
+    - download: current
+      artifact: Lambda_Packages
+      displayName: Download lambda layer package
+    - download: current
+      artifact: Lambda_Code
+      displayName: Download lambda deployment package
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+      displayName: Install latest version of Terraform on agent
+
+    - task: AzureKeyVault@2
+      displayName: Retrieve AWS Credentials from Azure Key Vault
+      inputs:
+        azureSubscription: 'Azure RM Service Connection'
+        KeyVaultName: 'AWSCredentialsVault'
+        SecretsFilter: 'AWSAccessKey, AWSSecretKey, API-KEY, PUBLIC-KEY'
+        RunAsPreJob: false
+
+
+    - bash: |
+        ls $(System.ArtifactsDirectory)
+        cd $(PipeLine.Workspace)/s/terraform_code/
+        terraform init \
+        -backend-config="bucket=$(BACKEND_BUCKET)" \
+        -backend-config="key=$(TFSTATE_KEY)" \
+        -backend-config="region=$(REGION)" 
+      env:
+        AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
+        AWS_ACCESS_KEY_ID: $(AWSAccessKey)
+        REGION: $(region)
+        BACKEND_BUCKET: $(backend_bucket)
+        TFSTATE_KEY: $(tfstate_key)
+      displayName: Initialize terraform working directory
+
+    - bash: |
+        cd $(PipeLine.Workspace)/s/terraform_code/
+        terraform plan -out=plan.json \
+        -var 'lambda_packages_bucket=$(LAMBDA_PACKAGES_BUCKET)' \
+        -var 'lambda_name=$(LAMBDA_NAME)' \
+        -var 'dynamodb_table_name=$(DYNAMODB_TABLE_NAME)' \
+        -var 'lambda_layer_zip_path=$(Pipeline.Workspace)/Lambda_Packages/discord_bot_packages.zip' \
+        -var 'lambda_code_zip_path=$(Pipeline.Workspace)/Lambda_Code/lambda_deployment_package.zip' \
+        -var 'API_KEY=$(API-KEY)' \
+        -var 'PUBLIC_KEY=$(PUBLIC-KEY)'
+      env:
+        AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
+        AWS_ACCESS_KEY_ID: $(AWSAccessKey)
+        LAMBDA_PACKAGES_BUCKET: $(lambda_packages_bucket)
+        LAMBDA_NAME: $(lambda_name)
+        DYNAMODB_TABLE_NAME: $(dynamodb_table_name)
+        PUBLIC-KEY: $(PUBLIC-KEY)
+        API-KEY: $(API-KEY)
+      displayName: Run a terraform plan command and produce plan artifact
+
+    - bash: |
+        cd $(PipeLine.Workspace)/s/terraform_code/
+        terraform apply plan.json
+      env:
+        AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
+        AWS_ACCESS_KEY_ID: $(AWSAccessKey)
+      displayName: Terraform apply

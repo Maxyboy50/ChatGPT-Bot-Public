@@ -1,0 +1,5 @@
+boto3
+pynacl
+discord.py
+requests
+openai
