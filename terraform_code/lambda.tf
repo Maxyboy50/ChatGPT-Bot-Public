@@ -8,7 +8,7 @@ resource "aws_lambda_function" "this" {
   handler       = "main.lambda_handler"
   runtime       = "python3.10"
   memory_size   = 1024
-  timeout       = 500
+  timeout       = 300
 
   s3_bucket         = var.lambda_packages_bucket
   s3_key            = aws_s3_object.deployment_package.id
