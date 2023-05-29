@@ -9,13 +9,13 @@ from chat_gpt_interactions import chat_gpt_message
 API_KEY = os.getenv('API_KEY')
 openai.api_key = API_KEY
 
-def defer(interaction_id,interaction_token):
+def defer(interaction_id: str, interaction_token: str):
         url = f'https://discord.com/api/v10/interactions/{interaction_id}/{interaction_token}/callback'
         response = {'type': 5}
         headers = {'Content-Type': 'application/json'}
         r = requests.post(url, headers=headers,json=response)
     
-def follow_up(response, application_id, interaction_token):
+def follow_up(response: str, application_id: str, interaction_token: str):
         url = f'https://discord.com/api/v10/webhooks/{application_id}/{interaction_token}'
         headers = {"Content-Type": "application/json"}
         response = {"content": f'{response}'}
@@ -24,7 +24,7 @@ def follow_up(response, application_id, interaction_token):
           too_long_payload = {"content": "The prompt/reponse was too long to be returned to Discord. Think of a shorter prompt and try again."}
           r = requests.post(url,headers=headers,json=too_long_payload)
           
-def command_handler(command_name, interaction_token, userID, interaction_id, dynamo_db_table, application_id, command_value):
+def command_handler(command_name: str, interaction_token: str, userID: str, interaction_id: str, dynamo_db_table: None, application_id: str, command_value: str):
       try:
         defer(interaction_id=interaction_id,interaction_token=interaction_token)
         time.sleep(.5)

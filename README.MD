@@ -1,12 +1,16 @@
-# Serverless ChatGPT Bot
+# Serverless ChatGPT Discord Bot
 
 ## Overview:
-This purpose of this project was to integrate the incredibly powerful OpenAI API with the popular community platform Discord to provide ChatGPT-like functionality from within the platform. The bot can respond to any prompt and has the ability to remember message history (a feature not included in the OpenAI API natively).
+This purpose of this project was to integrate the incredibly powerful OpenAI API with the popular community platform Discord to provide ChatGPT-like functionality from within the platform. The bot can respond to any prompt and has the ability to recall previously sent messages (a feature not included in the OpenAI API natively).
+
+I decided to make this bot serverless due to the event based nature of Discord bots
 
 ### Technologies used:
-The code for this bot is written entirely in Python and leverages AWS API Gateway, AWS Lambda, and AWS DynamoDB for receiving, processing, and storing events received from Discord. As mentioned in the overview, it makes uses of the OpenAI API (specifically the chat completion functionality).
+- The code for this bot is written entirely in Python.
+- AWS API Gateway, AWS Lambda, and AWS DynamoDB along with other complimentary services (eg. IAM).
+- Terraform for deploying/managing the infrastructure.
+- Azure DevOps pipeline for CI/CD.
 
-I use Terraform to deploy the deploy all of the underlying infrastructure on AWS
 
 ### Examples:
 #### Prompt:

@@ -1,11 +1,10 @@
-# Boto3 Documentation https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
 import time
-
-def register_user(userID, table):
+import openai
+def register_user(userID: str, table: None):
     table.put_item(Item={"userID": userID, "messages": []})
 
 
-def fetch_message_history(userID, table):
+def fetch_message_history(userID: str, table: None):
     for i in range(5):
         try:
             message_history = table.get_item(Key={"userID": userID})
@@ -21,7 +20,7 @@ def fetch_message_history(userID, table):
             time.sleep(2**i)
 
 
-def update_user_message(userID, input, table):
+def update_user_message(userID: str, input: dict, table: None):
     table.update_item(
         Key={"userID": userID},
         UpdateExpression=f"SET #messages = list_append(#messages, :value)",
@@ -30,7 +29,7 @@ def update_user_message(userID, input, table):
     )
 
 
-def update_assistant_message(userID, response, table):
+def update_assistant_message(userID: str, response: None , table: None):
     proper_formatting = dict(response)
     table.update_item(
         Key={"userID": userID},

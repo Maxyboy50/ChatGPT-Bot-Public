@@ -3,7 +3,7 @@ from dynamo_db_interactions import update_user_message
 from dynamo_db_interactions import update_assistant_message
 
 
-def chat_gpt_message(messages, prompt, userID, table):
+def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
     input = {"role": "user", "content": prompt}
     update_user_message(userID=userID, input=input,table=table)
     message_history = list(messages)
