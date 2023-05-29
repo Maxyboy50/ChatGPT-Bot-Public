@@ -1,11 +1,3 @@
-- [Serverless ChatGPT Bot](#serverless-chatgpt-bot)
-  - [Overview:](#overview)
-    - [Technologies used:](#technologies-used)
-    - [Examples:](#examples)
-      - [Prompt:](#prompt)
-      - [Bot thinking:](#bot-thinking)
-      - [Response:](#response)
-      - [Reference to message history:](#reference-to-message-history)
 # Serverless ChatGPT Bot
 
 ## Overview:
