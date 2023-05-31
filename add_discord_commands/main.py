@@ -3,23 +3,23 @@ import os
 from dotenv import load_dotenv
 import json
 load_dotenv(dotenv_path='./.env')
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-APPLICATION_ID = "1108091286256369766"
-guild_id       = "1073753791440093234"
+BOT_TOKEN_TEST = os.getenv('BOT_TOKEN_TEST')
+APPLICATION_ID = "1113290061883117700"
+guild_id       = "1108093648085712929"
 
 command_id = "1109334623894388777"
-list_commands = f"https://discord.com/api/v10/applications/{APPLICATION_ID}/commands"
+list_commands = f"https://discord.com/api/v10/applications/{APPLICATION_ID}/guilds/{guild_id}/commands"
 delete_url_guild = f"https://discord.com/api/v10/applications/{APPLICATION_ID}/guilds/{guild_id}/commands/{command_id}"
 delete_url_global= f"https://discord.com/api/v10/applications/{APPLICATION_ID}/commands/{command_id}"
 
 guild_url_add= f"https://discord.com/api/v10/applications/{APPLICATION_ID}/guilds/{guild_id}/commands" #Add Guild Command
 body = {
-  "name": "chatgptprompt",
+  "name": "longmessage",
   "description": "Enter a prompt to interact with ChatGPT. This bot is aware of conversational history.",
   "options": [
     {
       "name": "prompt",
-      "description": "What you want to ask ChatGPT.",
+      "description": "What you want to ask ChatGPT (long format test).",
       "type": 3,
       "required": True
     }
@@ -29,7 +29,9 @@ body = {
 
 
 headers = {
-    "Authorization": f"Bot {BOT_TOKEN}"
+    "Authorization": f"Bot {BOT_TOKEN_TEST}"
 }
-
+#get_commands = requests.get(list_commands,headers=headers)
 create = requests.post(guild_url_add, headers=headers, json=body)
+#print(get_commands.text)
+print(create.text)

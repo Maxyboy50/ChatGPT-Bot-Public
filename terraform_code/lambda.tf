@@ -20,6 +20,7 @@ resource "aws_lambda_function" "this" {
       TABLE_NAME = aws_dynamodb_table.this.name
       API_KEY    = var.API_KEY
       PUBLIC_KEY = var.PUBLIC_KEY
+      WEBHOOK_URL = var.WEBHOOK_URL
     }
   }
 }

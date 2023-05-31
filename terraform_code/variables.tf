@@ -36,3 +36,10 @@ variable "API_KEY" {
   default     = ""
   sensitive   = true
 }
+
+variable "WEBHOOK_URL" {
+  description = "Webhook URL to send discord messages to."
+  type = string
+  default = ""
+  sensitive = true
+}

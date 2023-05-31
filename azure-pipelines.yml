@@ -86,7 +86,8 @@ stages:
         -var 'lambda_layer_zip_path=$(Pipeline.Workspace)/Lambda_Packages/discord_bot_packages.zip' \
         -var 'lambda_code_zip_path=$(Pipeline.Workspace)/Lambda_Code/lambda_deployment_package.zip' \
         -var 'API_KEY=$(API-KEY)' \
-        -var 'PUBLIC_KEY=$(PUBLIC-KEY)'
+        -var 'PUBLIC_KEY=$(PUBLIC-KEY)\
+        -var 'WEBHOOK_URL=$(WEBHOOK_URL)'
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
         AWS_ACCESS_KEY_ID: $(AWSAccessKey)
@@ -95,6 +96,7 @@ stages:
         DYNAMODB_TABLE_NAME: $(dynamodb_table_name)
         PUBLIC-KEY: $(PUBLIC-KEY)
         API-KEY: $(API-KEY)
+        WEBHOOK_URL: $(WEBHOOK_URL)
       displayName: Run a terraform plan command and produce plan artifact
 
     - bash: |
