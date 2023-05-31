@@ -15,7 +15,6 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
         tokens = len(message["content"])
         if tokens <= remaining_tokens:
             remaining_tokens -= tokens
-            print(remaining_tokens)
         else:
             message_history = message_history[i + 1 :]
             break
@@ -30,5 +29,4 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
       return chat_gpt_response
     except openai.error.InvalidRequestError:
         response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
-        print(message_history)
         return response

@@ -15,11 +15,11 @@ delete_url_global= f"https://discord.com/api/v10/applications/{APPLICATION_ID}/c
 guild_url_add= f"https://discord.com/api/v10/applications/{APPLICATION_ID}/guilds/{guild_id}/commands" #Add Guild Command
 body = {
   "name": "longmessage",
-  "description": "Enter a prompt to interact with ChatGPT. This bot is aware of conversational history.",
+  "description": "Use this command in place of /chatgptprompt when expecting a 2000+ character response.",
   "options": [
     {
       "name": "prompt",
-      "description": "What you want to ask ChatGPT (long format test).",
+      "description": "What you want to ask ChatGPT.",
       "type": 3,
       "required": True
     }
