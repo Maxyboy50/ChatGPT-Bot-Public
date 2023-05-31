@@ -1,5 +1,7 @@
 import time
 import openai
+
+
 def register_user(userID: str, table: None):
     table.put_item(Item={"userID": userID, "messages": []})
 
@@ -29,7 +31,7 @@ def update_user_message(userID: str, input: dict, table: None):
     )
 
 
-def update_assistant_message(userID: str, response: None , table: None):
+def update_assistant_message(userID: str, response: None, table: None):
     proper_formatting = dict(response)
     table.update_item(
         Key={"userID": userID},
