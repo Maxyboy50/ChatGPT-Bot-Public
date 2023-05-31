@@ -6,7 +6,7 @@ from dynamo_db_interactions import update_assistant_message
 def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
     input = {"role": "user", "content": prompt}
     update_user_message(userID=userID, input=input,table=table)
-    message_history = list(messages)
+    message_history = messages
     message_history.append(input)
     max_tokens = 2750
     remaining_tokens = max_tokens - len(input["content"])
@@ -15,6 +15,7 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
         tokens = len(message["content"])
         if tokens <= remaining_tokens:
             remaining_tokens -= tokens
+            print(remaining_tokens)
         else:
             message_history = message_history[i + 1 :]
             break
