@@ -3,5 +3,4 @@ pynacl
 discord.py
 requests
 openai
-asyncio
 aiohttp
