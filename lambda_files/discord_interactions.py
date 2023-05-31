@@ -44,14 +44,15 @@ def command_handler(command_name: str, interaction_token: str, userID: str, inte
       try:
         defer(interaction_id=interaction_id,interaction_token=interaction_token)
         time.sleep(.5)
+        follow_up(response='Consulting my assistant, expect a response soon!', application_id=application_id, interaction_token=interaction_token)
         # if command_name == "chatgptprompt":
         #   conversation_history = fetch_message_history(userID=userID,table=dynamo_db_table)
         #   assistant_reponse = chat_gpt_message(messages=conversation_history,prompt=command_value,userID=userID, table=dynamo_db_table)
         #   follow_up(response=assistant_reponse, application_id=application_id, interaction_token=interaction_token)
         if command_name == "chatgptprompt":
           conversation_history = fetch_message_history(userID=userID,table=dynamo_db_table)
-          assistant_reponse = chat_gpt_message(messages=conversation_history,prompt=command_value,userID=userID, table=dynamo_db_table)
-          asyncio.run(send_webhook(assistant_reponse))
+          assistant_response = chat_gpt_message(messages=conversation_history,prompt=command_value,userID=userID, table=dynamo_db_table)
+          asyncio.run(send_webhook(assistant_response))
         else:
           follow_up(response="Sorry, that is an invalid command/option", application_id=application_id, interaction_token=interaction_token)
       except openai.error.RateLimitError:
