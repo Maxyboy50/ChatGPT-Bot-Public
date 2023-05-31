@@ -43,7 +43,6 @@ def follow_up(response: str, application_id: str, interaction_token: str):
 def command_handler(command_name: str, interaction_token: str, userID: str, interaction_id: str, dynamo_db_table: None, application_id: str, command_value: str):
       try:
         defer(interaction_id=interaction_id,interaction_token=interaction_token)
-        time.sleep(.5)
         conversation_history = fetch_message_history(userID=userID,table=dynamo_db_table)
         assistant_response = chat_gpt_message(messages=conversation_history,prompt=command_value,userID=userID, table=dynamo_db_table)
         if command_name == "chatgptprompt":
