@@ -32,3 +32,6 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
     except openai.error.InvalidRequestError:
         response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
         return response
+    except openai.error.APIError:
+        response = "The OpenAI servers are overloaded right now. Retry your prompt"
+        return response
