@@ -24,7 +24,7 @@ resource "aws_apigatewayv2_integration" "this" {
   passthrough_behavior = "WHEN_NO_MATCH"
 }
 
-resource "aws_apigatewayv2_route" "POST" {
+resource "aws_apigatewayv2_route" "this" {
   for_each = toset(["POST", "GET"])
   api_id    = aws_apigatewayv2_api.this.id
   route_key = "${each.key} /${aws_lambda_function.this.function_name}"
