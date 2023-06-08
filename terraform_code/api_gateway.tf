@@ -25,9 +25,8 @@ resource "aws_apigatewayv2_integration" "this" {
 }
 
 resource "aws_apigatewayv2_route" "this" {
-  for_each = toset(["POST", "GET"])
   api_id    = aws_apigatewayv2_api.this.id
-  route_key = "${each.key} /${aws_lambda_function.this.function_name}"
+  route_key = "POST /${aws_lambda_function.this.function_name}"
 
   target = "integrations/${aws_apigatewayv2_integration.this.id}"
 }
