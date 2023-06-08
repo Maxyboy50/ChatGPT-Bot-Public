@@ -1,0 +1,15 @@
+lambda_name = <name you want to assign your lambda>
+
+lambda_packages_bucket = <name of the bucket where you want your lambda packages stored>
+
+dynamodb_table_name = <name you want to create your dynamodb table under>
+
+lambda_layer_zip_path = <absolute path to your lambda layer that is zipped>
+
+lambda_code_zip_path = <absolute path to you lambda deployment package that is zipped
+
+PUBLIC_KEY = <public key of your Discord application (used to verify requests). Can be passed in at command line via env variable>
+
+API_KEY = <OpenAI API key used to make API calls. Can be passed in at command line via environment variable>
+
+WEBHOOK_URL = <URL of webhook that you bot can send messages to, completely optional but provides longmessage functionality>
