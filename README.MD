@@ -5,7 +5,7 @@ This purpose of this project was to integrate the incredibly powerful OpenAI API
 
 I decided to make this bot serverless due to the event based nature of Discord slash commands; when using Discord slash commands, an event is sent to wherever your bot is running continously (like a service on a server, or locally in a terminal) or, optionally, an interaction endpoint. This interaction endpoint is a URL you supply that will receive events from Discord when your slash command is invoked. 
 
-The interaction sent by discord to the interaction endpoint is an HTTP POST request which led me to leverage AWS API Gateway and AWS Lambda for processing the interactions. Leveraging these service allows me to minimize costs while 
+The interaction sent by discord to the interaction endpoint is an HTTP POST request which led me to leverage AWS API Gateway and AWS Lambda for processing the interactions. Leveraging these service allows me to minimize costs while ensuring maximum uptime.
 
 ### Technologies used:
 - The code for this bot is written entirely in Python.
