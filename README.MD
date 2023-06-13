@@ -9,7 +9,7 @@ The interaction sent by discord to the interaction endpoint is an HTTP POST requ
 
 ### Technologies used:
 - The code for this bot is written entirely in Python.
-- AWS API Gateway, AWS Lambda, and AWS DynamoDB along with other complimentary services (eg. IAM).
+- AWS API Gateway, AWS Lambda, and AWS DynamoDB along with other complimentary services (e.g. IAM).
 - Terraform for deploying/managing the infrastructure.
 - Azure DevOps pipeline for CI/CD.
 
