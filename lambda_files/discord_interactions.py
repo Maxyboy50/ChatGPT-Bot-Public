@@ -68,7 +68,7 @@ def command_handler(
             prompt=command_value,
             userID=userID,
             table=dynamo_db_table,
-            max_tokens=200
+            max_tokens=400
         )
             follow_up(
                 response=assistant_response,
