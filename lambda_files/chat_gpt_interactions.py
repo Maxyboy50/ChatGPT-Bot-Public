@@ -8,7 +8,7 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
     update_user_message(userID=userID, input=input, table=table)
     message_history = messages
     message_history.append(input)
-    max_tokens = 2750
+    max_tokens = 16000
     remaining_tokens = max_tokens - len(input["content"])
     for i in range(len(message_history) - 1, -1, -1):
         message = message_history[i]
@@ -20,7 +20,7 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
             break
     try:
         completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model="gpt-3.5-turbo-16k",
             messages=message_history,
             max_tokens=max_tokens,
         )
