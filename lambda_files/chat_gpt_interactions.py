@@ -10,15 +10,15 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     return num_tokens
 
 
-def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
+def chat_gpt_message(messages: list, prompt: str, userID: str, table: None, max_tokens: int):
     input = {"role": "user", "content": prompt}
     update_user_message(userID=userID, input=input, table=table)
     message_history = messages
     message_history.append(input)
-    max_tokens = 2000
+    max_tokens = max_tokens
     max_token_length = 14000
     remaining_tokens = max_token_length - num_tokens_from_string(string=(input["content"]), encoding_name="gpt2")
-    total_token_length = 0  # Variable to track the total token length
+    total_token_length = 0
 
     for i in range(len(message_history) - 1, -1, -1):
       message = message_history[i]

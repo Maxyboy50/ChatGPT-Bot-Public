@@ -62,13 +62,14 @@ def command_handler(
         conversation_history = fetch_message_history(
             userID=userID, table=dynamo_db_table
         )
-        assistant_response = chat_gpt_message(
+        if command_name == "chatgptprompt":
+            assistant_response = chat_gpt_message(
             messages=conversation_history,
             prompt=command_value,
             userID=userID,
             table=dynamo_db_table,
+            max_tokens=500
         )
-        if command_name == "chatgptprompt":
             follow_up(
                 response=assistant_response,
                 application_id=application_id,
@@ -80,6 +81,13 @@ def command_handler(
                 application_id=application_id,
                 interaction_token=interaction_token,
             )
+            assistant_response = chat_gpt_message(
+            messages=conversation_history,
+            prompt=command_value,
+            userID=userID,
+            table=dynamo_db_table,
+            max_tokens=2000
+        )
             asyncio.run(send_webhook(assistant_response))
         else:
             follow_up(
