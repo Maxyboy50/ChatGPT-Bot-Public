@@ -64,12 +64,12 @@ def command_handler(
         )
         if command_name == "chatgptprompt":
             assistant_response = chat_gpt_message(
-            messages=conversation_history,
-            prompt=command_value,
-            userID=userID,
-            table=dynamo_db_table,
-            max_tokens=400
-        )
+                messages=conversation_history,
+                prompt=command_value,
+                userID=userID,
+                table=dynamo_db_table,
+                max_tokens=400,
+            )
             follow_up(
                 response=assistant_response,
                 application_id=application_id,
@@ -82,12 +82,12 @@ def command_handler(
                 interaction_token=interaction_token,
             )
             assistant_response = chat_gpt_message(
-            messages=conversation_history,
-            prompt=command_value,
-            userID=userID,
-            table=dynamo_db_table,
-            max_tokens=2000
-        )
+                messages=conversation_history,
+                prompt=command_value,
+                userID=userID,
+                table=dynamo_db_table,
+                max_tokens=2000,
+            )
             asyncio.run(send_webhook(assistant_response))
         else:
             follow_up(
