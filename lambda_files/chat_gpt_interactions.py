@@ -19,20 +19,16 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None, max_
     max_token_length = 14000
     remaining_tokens = max_token_length - num_tokens_from_string(string=(input["content"]), encoding_name="gpt2")
     total_token_length = 0
-
     for i in range(len(message_history) - 1, -1, -1):
       message = message_history[i]
       tokens = num_tokens_from_string(string=message["content"], encoding_name="gpt2")
-      if total_token_length + remaining_tokens <= max_token_length:
-        remaining_tokens -= tokens
+      if total_token_length + tokens <= max_token_length:
         total_token_length += tokens
-        print(total_token_length)
+        remaining_tokens = max_token_length - remaining_tokens
       else:
         message_history = message_history[i + 1 :]
         break
-    
-    print(remaining_tokens)
-    print(message_history)
+    print(total_token_length)
     try:
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo-16k",
