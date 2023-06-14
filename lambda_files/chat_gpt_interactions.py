@@ -8,7 +8,7 @@ def chat_gpt_message(messages: list, prompt: str, userID: str, table: None):
     update_user_message(userID=userID, input=input, table=table)
     message_history = messages
     message_history.append(input)
-    max_tokens = 16000
+    max_tokens = 15000
     remaining_tokens = max_tokens - len(input["content"])
     for i in range(len(message_history) - 1, -1, -1):
         message = message_history[i]
