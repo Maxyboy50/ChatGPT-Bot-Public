@@ -128,9 +128,11 @@ stages:
       artifact: terraform_plan
     
     - bash: |
-        cd $(PipeLine.Workspace)/ChatGPT-Bot-Public/terraform_code/
+        ls $(Build.SourcesDirectory)
+        ls $(Pipeline.Workspace)
+        cd $(Build.SourcesDirectory)/s/terraform_code/
         terraform init
-        terraform apply $(Pipeline.Workplace)/terraform_plan/plan.json
+        terraform apply $(Pipeline.Workspace)/terraform_plan/plan.json
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
         AWS_ACCESS_KEY_ID: $(AWSAccessKey)
