@@ -129,6 +129,7 @@ stages:
     
     - bash: |
         cd $(PipeLine.Workspace)/terraform_plan/
+        terraform init
         terraform apply plan.json
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
