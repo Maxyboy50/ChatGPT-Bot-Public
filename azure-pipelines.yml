@@ -103,7 +103,8 @@ stages:
         API-KEY: $(API-KEY)
         WEBHOOK_URL: $(WEBHOOK_URL)
       displayName: Run a terraform plan command and produce plan artifact
-    - publish: plan.json
+
+    - publish: $(Build.ArtifactStagingDirectory)/plan.json
       artifact: terraform_plan
       displayName: Publish terraform plan for consumption
 - stage: Deployment
