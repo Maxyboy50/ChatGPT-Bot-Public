@@ -128,9 +128,7 @@ stages:
       artifact: terraform_plan
     
     - bash: |
-        ls $(Build.SourcesDirectory)
-        ls $(Pipeline.Workspace)
-        cd $(Build.SourcesDirectory)/s/terraform_code/
+        cd $(Build.SourcesDirectory)/terraform_code/
         terraform init
         terraform apply $(Pipeline.Workspace)/terraform_plan/plan.json
       env:
