@@ -119,9 +119,12 @@ stages:
         KeyVaultName: 'AWSCredentialsVault'
         SecretsFilter: 'AWSAccessKey, AWSSecretKey, API-KEY, PUBLIC-KEY'
         RunAsPreJob: false
-
+        
+    - download: current
+      artifact: terraform_plan
+    
     - bash: |
-        cd $(PipeLine.Workspace)/s/terraform_code/
+        cd $(PipeLine.Workspace)/terraform_plan/
         terraform apply plan.json
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
