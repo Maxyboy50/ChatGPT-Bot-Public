@@ -17,9 +17,8 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '3.10'
-        disableDownloadFromRegistry: true
         addToPath: true
-        architecture: 'x64'
+        architecture: 'x86'
       displayName: Use specific Python version in line with Lambda Runtime + Lambda Layer Runtime
 
     - bash: |
