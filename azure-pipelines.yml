@@ -18,7 +18,7 @@ stages:
       inputs:
         versionSpec: '3.10'
         addToPath: true
-        architecture: 'x86'
+        architecture: 'x64'
       displayName: Use specific Python version in line with Lambda Runtime + Lambda Layer Runtime
 
     - bash: |
