@@ -119,7 +119,11 @@ stages:
         KeyVaultName: 'AWSCredentialsVault'
         SecretsFilter: 'AWSAccessKey, AWSSecretKey, API-KEY, PUBLIC-KEY'
         RunAsPreJob: false
-        
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
+      displayName: Install latest version of Terraform on agent
+    
     - download: current
       artifact: terraform_plan
     
