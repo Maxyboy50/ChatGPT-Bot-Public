@@ -12,6 +12,7 @@ pool:
 
 stages:
 - stage: PreDeployment
+  displayName: Pre-Deployment
   jobs:
   - job: Packages
     steps:
@@ -31,13 +32,16 @@ stages:
     - bash: |
         zip -r lambda_deployment_package.zip $(Pipeline.Workspace)/s/lambda_files/ -j
       displayName: Create deployment package from lambda code
+
     - publish: $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip
       artifact: Lambda_Packages
       displayName: Publish lambda packages artifact
+
     - publish: lambda_deployment_package.zip
       artifact: Lambda_Code
       displayName: Publish lambda code artifact
-- stage: Deployment
+- stage: Plan
+  displayName: Produce terraform plan artifact
   jobs: 
   - job: Terraform
     steps:
@@ -45,9 +49,11 @@ stages:
     - download: current
       artifact: Lambda_Packages
       displayName: Download lambda layer package
+
     - download: current
       artifact: Lambda_Code
       displayName: Download lambda deployment package
+
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
@@ -63,7 +69,6 @@ stages:
 
 
     - bash: |
-        ls $(System.ArtifactsDirectory)
         cd $(PipeLine.Workspace)/s/terraform_code/
         terraform init \
         -backend-config="bucket=$(BACKEND_BUCKET)" \
@@ -79,7 +84,7 @@ stages:
 
     - bash: |
         cd $(PipeLine.Workspace)/s/terraform_code/
-        terraform plan -out=plan.json \
+        terraform plan -out=$(Build.ArtifactStagingDirectory)/plan.json \
         -var 'lambda_packages_bucket=$(LAMBDA_PACKAGES_BUCKET)' \
         -var 'lambda_name=$(LAMBDA_NAME)' \
         -var 'dynamodb_table_name=$(DYNAMODB_TABLE_NAME)' \
@@ -98,6 +103,21 @@ stages:
         API-KEY: $(API-KEY)
         WEBHOOK_URL: $(WEBHOOK_URL)
       displayName: Run a terraform plan command and produce plan artifact
+    - publish: plan.json
+      artifact: terraform_plan
+      displayName: Publish terraform plan for consumption
+- stage: Deployment
+  jobs:
+  - job: Deploy
+    displayName: Run terraform apply
+    steps:
+    - task: AzureKeyVault@2
+      displayName: Retrieve AWS Credentials from Azure Key Vault
+      inputs:
+        azureSubscription: 'Azure RM Service Connection'
+        KeyVaultName: 'AWSCredentialsVault'
+        SecretsFilter: 'AWSAccessKey, AWSSecretKey, API-KEY, PUBLIC-KEY'
+        RunAsPreJob: false
 
     - bash: |
         cd $(PipeLine.Workspace)/s/terraform_code/
