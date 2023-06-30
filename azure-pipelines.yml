@@ -129,9 +129,16 @@ stages:
     
     - bash: |
         cd $(Build.SourcesDirectory)/terraform_code/
-        terraform init
+        terraform init \
+        -backend-config="bucket=$(BACKEND_BUCKET)" \
+        -backend-config="key=$(TFSTATE_KEY)" \
+        -backend-config="region=$(REGION)" 
+
         terraform apply $(Pipeline.Workspace)/terraform_plan/plan.json
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
         AWS_ACCESS_KEY_ID: $(AWSAccessKey)
+        REGION: $(region)
+        BACKEND_BUCKET: $(backend_bucket)
+        TFSTATE_KEY: $(tfstate_key)
       displayName: Terraform apply
