@@ -126,8 +126,13 @@ stages:
     
     - download: current
       artifact: terraform_plan
+    - download: current
+      artifact: Lambda_Packages
+    - download: current
+      artifact: Lambda_Code
     
     - bash: |
+        ls $()
         cd $(Build.SourcesDirectory)/terraform_code/
         terraform init \
         -backend-config="bucket=$(BACKEND_BUCKET)" \
