@@ -2,7 +2,6 @@ import requests
 import asyncio
 import aiohttp
 import openai
-import time
 import os
 from dynamo_db_interactions import fetch_message_history
 from chat_gpt_interactions import chat_gpt_message
@@ -43,7 +42,7 @@ def follow_up(response: str, application_id: str, interaction_token: str):
     r = requests.post(url, json=response)
     if "BASE_TYPE_MAX_LENGTH" in r.text:
         too_long_payload = {
-            "content": "The prompt/reponse was too long to be returned to Discord. Think of a shorter prompt and try again."
+            "content": "The prompt/response was too long to be returned to Discord. Think of a shorter prompt and try again."
         }
         r = requests.post(url, headers=headers, json=too_long_payload)
 

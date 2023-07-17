@@ -12,7 +12,7 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
 
 def chat_gpt_message(
     messages: list, prompt: str, userID: str, table: None, max_tokens: int
-):
+) -> str:
     input = {"role": "user", "content": prompt}
     update_user_message(userID=userID, input=input, table=table)
     message_history = messages
