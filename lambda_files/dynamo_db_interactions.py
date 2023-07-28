@@ -1,5 +1,4 @@
 import time
-import openai
 
 
 def register_user(userID: str, table: None):
