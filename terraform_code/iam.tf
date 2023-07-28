@@ -1,3 +1,6 @@
+data "aws_caller_identity" "this" {}
+
+
 data "aws_iam_policy_document" "this" {
   statement {
     effect = "Allow"
@@ -23,7 +26,7 @@ resource "aws_iam_role" "this" {
         {
           "Effect" : "Allow",
           "Action" : "logs:CreateLogGroup",
-          "Resource" : "arn:aws:logs:us-east-2:912434042761:*"
+          "Resource" : "arn:aws:logs:us-east-2:${data.aws_caller_identity.this.account_id}:*"
         },
         {
           "Effect" : "Allow",
@@ -32,7 +35,7 @@ resource "aws_iam_role" "this" {
             "logs:PutLogEvents"
           ],
           "Resource" : [
-            "arn:aws:logs:us-east-2:912434042761:log-group:/aws/lambda/${var.lambda_name}:*"
+            "arn:aws:logs:us-east-2:${data.aws_caller_identity.this.account_id}:log-group:/aws/lambda/${var.lambda_name}:*"
           ]
         },
         {
@@ -43,7 +46,7 @@ resource "aws_iam_role" "this" {
             "dynamodb:PutItem"
           ],
           "Resource" : [
-            "arn:aws:dynamodb:us-east-2:912434042761:table/${aws_dynamodb_table.this.id}"
+            "arn:aws:dynamodb:us-east-2:${data.aws_caller_identity.this.account_id}:table/${aws_dynamodb_table.this.id}"
           ]
         }
       ]
