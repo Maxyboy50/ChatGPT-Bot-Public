@@ -44,7 +44,7 @@ stages:
     - download: current
       artifact: Lambda_Packages
       displayName: Download lambda layer package
-
+          
     - download: current
       artifact: Lambda_Code
       displayName: Download lambda deployment package
