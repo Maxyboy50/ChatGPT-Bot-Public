@@ -28,11 +28,11 @@ resource "aws_secretsmanager_secret_version" "public_key" {
 
 
 data "aws_secretsmanager_secret_version" "webhook_url" {
-  secret_id = aws_secretsmanager_secret_version.webhook_url.arn
+  secret_id = aws_secretsmanager_secret.webhook_url.id
 }
 data "aws_secretsmanager_secret_version" "public_key" {
-  secret_id = aws_secretsmanager_secret_version.public_key.arn
+  secret_id = aws_secretsmanager_secret.public_key.id
 }
 data "aws_secretsmanager_secret_version" "api_key" {
-  secret_id = aws_secretsmanager_secret_version.api_key.arn
+  secret_id = aws_secretsmanager_secret.api_key.id
 }
