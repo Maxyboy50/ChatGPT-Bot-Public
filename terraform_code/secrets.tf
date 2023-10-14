@@ -1,15 +1,15 @@
 resource "aws_secretsmanager_secret" "webhook_url" {
-  name        = "webhookurl"
+  name        = "Webhookurl"
   description = "Webhook url to be used when extending past base functionality"
 
 }
 resource "aws_secretsmanager_secret" "api_key" {
-  name        = "apikey"
+  name        = "Apikey"
   description = "OpenAI API key"
 
 }
 resource "aws_secretsmanager_secret" "public_key" {
-  name        = "publickey"
+  name        = "Publickey"
   description = "Discord bot public key to be used to authenticate interactions"
 }
 
