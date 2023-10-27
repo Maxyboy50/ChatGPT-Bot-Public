@@ -1,4 +1,6 @@
 import sys
+sys.path.append('./lambda_files/')
+
 import unittest
 from lambda_files.chat_gpt_interactions import num_tokens_from_string 
 
