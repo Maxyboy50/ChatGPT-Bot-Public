@@ -21,8 +21,7 @@ stages:
 
     - bash: |
         python3 -m pip install -t ./python -r requirements.txt
-        cd python
-        zip -r $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip ../python
+        zip -r $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip python
       displayName: Create lambda layer package
       workingDirectory: $(Pipeline.Workspace)/s
 
