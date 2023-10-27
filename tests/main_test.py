@@ -15,6 +15,3 @@ class TestTikToken(unittest.TestCase):
 #     def test_chatgptmessage_command(self): 
 #         command = "chatgptmessage"
         
-
-if __name__ == '__main__':
-    unittest.main()

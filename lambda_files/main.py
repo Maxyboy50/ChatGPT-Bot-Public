@@ -3,7 +3,7 @@ import json
 import boto3
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
-from discord_interactions import command_handler
+from .discord_interactions import command_handler
 
 PUBLIC_KEY = os.getenv("PUBLIC_KEY")
 TABLE_NAME = os.getenv("TABLE_NAME")
