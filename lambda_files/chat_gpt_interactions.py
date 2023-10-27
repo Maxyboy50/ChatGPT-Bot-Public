@@ -1,7 +1,7 @@
 import openai
 import tiktoken
-from .dynamo_db_interactions import update_user_message
-from .dynamo_db_interactions import update_assistant_message
+from dynamo_db_interactions import update_user_message
+from dynamo_db_interactions import update_assistant_message
 
 
 def num_tokens_from_string(string: str, encoding_name: str) -> int:

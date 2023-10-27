@@ -3,8 +3,8 @@ import asyncio
 import aiohttp
 import openai
 import os
-from .dynamo_db_interactions import fetch_message_history
-from .chat_gpt_interactions import chat_gpt_message
+from dynamo_db_interactions import fetch_message_history
+from chat_gpt_interactions import chat_gpt_message
 from discord import Webhook
 
 
