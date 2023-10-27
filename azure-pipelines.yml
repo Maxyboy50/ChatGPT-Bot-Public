@@ -22,12 +22,12 @@ stages:
     - bash: |
         python3 -m pip install -t ./python -r requirements.txt
         cd python
-        zip -r discord_bot_packages.zip ../python
+        zip -r $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip ../python
       displayName: Create lambda layer package
       workingDirectory: $(Pipeline.Workspace)/s
 
     - bash: |
-        zip -r lambda_deployment_package.zip lambda_files/ -j
+        zip -r $(Build.ArtifactStagingDirectory)/lambda_deployment_package.zip lambda_files/ -j
       displayName: Create deployment package from lambda code
       workingDirectory: $(Pipeline.Workspace)/s
 
@@ -35,7 +35,7 @@ stages:
       artifact: Lambda_Packages
       displayName: Publish lambda packages artifact
 
-    - publish: lambda_deployment_package.zip
+    - publish: $(Build.ArtifactStagingDirectory)/lambda_deployment_package.zip
       artifact: Lambda_Code
       displayName: Publish lambda code artifact
 
@@ -105,6 +105,7 @@ stages:
     - publish: $(Build.ArtifactStagingDirectory)/plan.json
       artifact: terraform_plan
       displayName: Publish terraform plan for consumption
+
 - stage: Deployment
   jobs:
   - job: Deploy
