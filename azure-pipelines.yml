@@ -20,14 +20,16 @@ stages:
       displayName: Use specific Python version in line with Lambda Runtime + Lambda Layer Runtime
 
     - bash: |
-        python3 -m pip install -t $(Build.ArtifactStagingDirectory)/python -r requirements.txt
-        cd $(Build.ArtifactStagingDirectory)/python
-        zip -r $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip ../python
+        python3 -m pip install -r requirements.txt
+        cd python
+        zip -r discord_bot_packages.zip ../python
       displayName: Create lambda layer package
+      workingDirectory: $(Build.ArtifactStagingDirectory)
 
     - bash: |
-        zip -r lambda_deployment_package.zip $(Pipeline.Workspace)/s/lambda_files/ -j
+        zip -r lambda_deployment_package.zip lambda_files/ -j
       displayName: Create deployment package from lambda code
+      workingDirectory: $(Pipeline.Workspace)/s
 
     - publish: $(Build.ArtifactStagingDirectory)/discord_bot_packages.zip
       artifact: Lambda_Packages
@@ -36,10 +38,9 @@ stages:
     - publish: lambda_deployment_package.zip
       artifact: Lambda_Code
       displayName: Publish lambda code artifact
-- stage: Plan
-  displayName: Produce terraform plan artifact
-  jobs: 
+
   - job: Terraform
+    displayName: Create Terraform plan
     steps:
     - checkout: self
     - download: current
@@ -65,7 +66,6 @@ stages:
 
 
     - bash: |
-        cd $(PipeLine.Workspace)/s/terraform_code/
         terraform init \
         -backend-config="bucket=$(BACKEND_BUCKET)" \
         -backend-config="key=$(TFSTATE_KEY)" \
@@ -77,9 +77,9 @@ stages:
         BACKEND_BUCKET: $(backend_bucket)
         TFSTATE_KEY: $(tfstate_key)
       displayName: Initialize terraform working directory
+      workingDirectory: $(Pipeline.Workspace)/s/terraform_code
 
     - bash: |
-        cd $(PipeLine.Workspace)/s/terraform_code/
         terraform plan -out=$(Build.ArtifactStagingDirectory)/plan.json \
         -var 'lambda_packages_bucket=$(LAMBDA_PACKAGES_BUCKET)' \
         -var 'lambda_name=$(LAMBDA_NAME)' \
@@ -99,6 +99,7 @@ stages:
         API-KEY: $(API-KEY)
         WEBHOOK_URL: $(WEBHOOK_URL)
       displayName: Run a terraform plan command and produce plan artifact
+      workingDirectory: $(Pipeline.Workspace)/s/terraform_code
 
     - publish: $(Build.ArtifactStagingDirectory)/plan.json
       artifact: terraform_plan
@@ -131,12 +132,10 @@ stages:
       displayName: Download Lambda deployment package
     
     - bash: |
-        cd $(Build.SourcesDirectory)/terraform_code/
         terraform init \
         -backend-config="bucket=$(BACKEND_BUCKET)" \
         -backend-config="key=$(TFSTATE_KEY)" \
         -backend-config="region=$(REGION)" 
-
         terraform apply $(Pipeline.Workspace)/terraform_plan/plan.json
       env:
         AWS_SECRET_ACCESS_KEY: $(AWSSecretKey)
@@ -145,3 +144,4 @@ stages:
         BACKEND_BUCKET: $(backend_bucket)
         TFSTATE_KEY: $(tfstate_key)
       displayName: Terraform apply
+      workingDirectory: $(Build.SourcesDirectory)/terraform_code
