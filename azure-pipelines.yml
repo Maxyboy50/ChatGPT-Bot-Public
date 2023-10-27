@@ -24,7 +24,7 @@ stages:
         cd python
         zip -r discord_bot_packages.zip ../python
       displayName: Create lambda layer package
-      workingDirectory: $(Build.ArtifactStagingDirectory)
+      workingDirectory: $(Pipeline.Workspace)/s
 
     - bash: |
         zip -r lambda_deployment_package.zip lambda_files/ -j
@@ -40,6 +40,7 @@ stages:
       displayName: Publish lambda code artifact
 
   - job: Terraform
+    dependsOn: Packages
     displayName: Create Terraform plan
     steps:
     - checkout: self
