@@ -20,7 +20,7 @@ stages:
       displayName: Use specific Python version in line with Lambda Runtime + Lambda Layer Runtime
 
     - bash: |
-        python3 -m pip install -r requirements.txt
+        python3 -m pip install -t ./python -r requirements.txt
         cd python
         zip -r discord_bot_packages.zip ../python
       displayName: Create lambda layer package
