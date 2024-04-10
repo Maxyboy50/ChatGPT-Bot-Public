@@ -50,5 +50,5 @@ def chat_gpt_message(
         return response
     except openai.error.APIError as e:
         print(e)
-        response = "The OpenAI servers are overloaded right now. Retry your prompt"
+        response = f"{e}"
         return response
