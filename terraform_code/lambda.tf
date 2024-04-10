@@ -18,7 +18,7 @@ resource "aws_lambda_function" "this" {
   environment {
     variables = {
       TABLE_NAME     = aws_dynamodb_table.this.name
-      OPENAI_API_KEY = var.API_KEY
+      OPENAI_API_KEY = var.OPENAI_API_KEY
       PUBLIC_KEY     = var.PUBLIC_KEY
       WEBHOOK_URL    = var.WEBHOOK_URL
     }
