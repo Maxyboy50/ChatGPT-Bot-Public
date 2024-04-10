@@ -86,7 +86,7 @@ stages:
         -var 'dynamodb_table_name=$(DYNAMODB_TABLE_NAME)' \
         -var 'lambda_layer_zip_path=$(Pipeline.Workspace)/Lambda_Packages/discord_bot_packages.zip' \
         -var 'lambda_code_zip_path=$(Pipeline.Workspace)/Lambda_Code/lambda_deployment_package.zip' \
-        -var 'API_KEY=$(API-KEY)' \
+        -var 'OPENAI_API_KEY=$(API-KEY)' \
         -var 'PUBLIC_KEY=$(PUBLIC-KEY)' \
         -var 'WEBHOOK_URL=$(WEBHOOK_URL)'
       env:

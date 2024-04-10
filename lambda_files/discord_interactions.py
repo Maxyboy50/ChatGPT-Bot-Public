@@ -8,7 +8,7 @@ from chat_gpt_interactions import chat_gpt_message
 from discord import Webhook
 
 
-API_KEY = os.getenv("API_KEY")
+OPEN_AI_API_KEY = os.getenv("OPENAI_API_KEY")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
 

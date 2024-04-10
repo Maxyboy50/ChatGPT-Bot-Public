@@ -30,7 +30,7 @@ variable "PUBLIC_KEY" {
   sensitive   = true
 }
 
-variable "API_KEY" {
+variable "OPENAI_API_KEY" {
   description = "OpenAI API Key used for making API calls"
   type        = string
   default     = ""
@@ -39,7 +39,8 @@ variable "API_KEY" {
 
 variable "WEBHOOK_URL" {
   description = "Webhook URL to send discord messages to."
-  type = string
-  default = ""
-  sensitive = true
+  type        = string
+  default     = ""
+  sensitive   = true
 }
+

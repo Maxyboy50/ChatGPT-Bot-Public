@@ -17,10 +17,10 @@ resource "aws_lambda_function" "this" {
   layers            = [aws_lambda_layer_version.this.arn]
   environment {
     variables = {
-      TABLE_NAME = aws_dynamodb_table.this.name
-      API_KEY    = var.API_KEY
-      PUBLIC_KEY = var.PUBLIC_KEY
-      WEBHOOK_URL = var.WEBHOOK_URL
+      TABLE_NAME     = aws_dynamodb_table.this.name
+      OPENAI_API_KEY = var.API_KEY
+      PUBLIC_KEY     = var.PUBLIC_KEY
+      WEBHOOK_URL    = var.WEBHOOK_URL
     }
   }
 }
@@ -44,3 +44,4 @@ resource "aws_lambda_layer_version" "this" {
   compatible_runtimes = ["python3.10"]
 
 }
+

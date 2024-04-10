@@ -19,7 +19,7 @@ resource "aws_secretsmanager_secret_version" "webhook_url" {
 }
 resource "aws_secretsmanager_secret_version" "api_key" {
   secret_id     = aws_secretsmanager_secret.api_key.id
-  secret_string = var.API_KEY
+  secret_string = var.OPENAI_API_KEY
 }
 resource "aws_secretsmanager_secret_version" "public_key" {
   secret_id     = aws_secretsmanager_secret.public_key.id
@@ -36,3 +36,4 @@ data "aws_secretsmanager_secret_version" "public_key" {
 data "aws_secretsmanager_secret_version" "api_key" {
   secret_id = aws_secretsmanager_secret.api_key.id
 }
+
