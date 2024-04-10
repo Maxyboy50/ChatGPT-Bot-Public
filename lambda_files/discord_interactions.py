@@ -10,7 +10,6 @@ from discord import Webhook
 
 API_KEY = os.getenv("API_KEY")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
-openai.api_key = API_KEY
 
 
 async def send_webhook(message):
@@ -94,7 +93,7 @@ def command_handler(
                 application_id=application_id,
                 interaction_token=interaction_token,
             )
-    except openai.error.RateLimitError:
+    except openai.RateLimitError:
         follow_up(
             response="Sorry, the OpenAI servers are overloaded right now, please try again shortly",
             application_id=application_id,

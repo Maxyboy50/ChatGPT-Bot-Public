@@ -1,4 +1,7 @@
 import openai
+from openai import OpenAI
+
+client = OpenAI()
 import tiktoken
 from dynamo_db_interactions import update_user_message
 from dynamo_db_interactions import update_assistant_message
@@ -34,21 +37,19 @@ def chat_gpt_message(
             break
     print(total_token_length)
     try:
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-16k",
-            messages=message_history,
-            max_tokens=max_tokens,
-        )
+        completion = client.chat.completions.create(model="gpt-3.5-turbo-16k",
+        messages=message_history,
+        max_tokens=max_tokens)
         update_assistant_message(
-            userID=userID, response=completion["choices"][0]["message"], table=table
+            userID=userID, response=completion.choices[0].message, table=table
         )
-        chat_gpt_response = completion["choices"][0]["message"]["content"]
+        chat_gpt_response = completion.choices[0].message.content
         return chat_gpt_response
-    except openai.error.InvalidRequestError as e:
+    except openai.InvalidRequestError as e:
         print(e)
         response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
         return response
-    except openai.error.APIError as e:
+    except openai.APIError as e:
         print(e)
-        response = f"{e}"
+        response = "The OpenAI servers are overloaded right now. Retry your prompt"
         return response
