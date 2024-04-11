@@ -45,7 +45,7 @@ def chat_gpt_message(
         )
         chat_gpt_response = completion.choices[0].message.content
         return chat_gpt_response
-    except openai.InvalidRequestError as e:
+    except openai.BadRequestError as e:
         print(e)
         response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
         return response
