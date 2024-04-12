@@ -37,6 +37,7 @@ def chat_gpt_message(
             break
     print(total_token_length)
     try:
+        print(message_history)
         completion = client.chat.completions.create(model="gpt-3.5-turbo-16k",
         messages=message_history,
         max_tokens=max_tokens)
