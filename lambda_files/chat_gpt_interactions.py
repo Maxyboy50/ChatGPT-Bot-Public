@@ -44,11 +44,13 @@ def chat_gpt_message(
             userID=userID, response=completion.choices[0].message, table=table
         )
         chat_gpt_response = completion.choices[0].message.content
+        print(chat_gpt_response)
         return chat_gpt_response
+
     except openai.BadRequestError as e:
-        print(e)
+        print(f"The Bad Request Error is as follows: {e}")
         response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
-        return response
+        return e
     except openai.APIError as e:
         print(e)
         response = "The OpenAI servers are overloaded right now. Retry your prompt"
