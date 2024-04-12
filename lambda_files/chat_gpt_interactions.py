@@ -37,20 +37,17 @@ def chat_gpt_message(
             break
     print(total_token_length)
     try:
-        print(message_history)
         completion = client.chat.completions.create(model="gpt-3.5-turbo-16k",
         messages=message_history,
         max_tokens=max_tokens)
         update_assistant_message(
-            userID=userID, response=completion.choices[0].message, table=table
+            userID=userID, response={"content": completion.choices[0].message.content, "role": completion.choices[0].message.role}, table=table
         )
         chat_gpt_response = completion.choices[0].message.content
-        print(chat_gpt_response)
         return chat_gpt_response
 
     except openai.BadRequestError as e:
-        print(f"The Bad Request Error is as follows: {e}")
-        response = "The prompt was too long for me to process. Think of a shorter prompt and try again."
+        response = "The Bad Request Error is as follows: {e}"
         return e
     except openai.APIError as e:
         print(e)
