@@ -37,7 +37,7 @@ def chat_gpt_message(
             break
     print(total_token_length)
     try:
-        completion = client.chat.completions.create(model="gpt-3.5-turbo-16k",
+        completion = client.chat.completions.create(model="gpt-4-turbo",
         messages=message_history,
         max_tokens=max_tokens)
         update_assistant_message(
