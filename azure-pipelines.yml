@@ -19,6 +19,7 @@ stages:
 - stage: Build_Validation
   dependsOn: []
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  jobs:
   - job: Packages
     steps:
     - task: UsePythonVersion@0
